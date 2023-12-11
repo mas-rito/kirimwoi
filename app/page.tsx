@@ -1,9 +1,11 @@
-import HeaderComponent from "./_components/Header.tsx";
+import HeaderComponent from "./_components/Header";
+import HeroComponent from "./_components/Hero";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main>
       <HeaderComponent />
+      <HeroComponent />
     </main>
   );
 }

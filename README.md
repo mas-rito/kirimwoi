@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+KirimWoi
+KirimWoi adalah aplikasi berbasis web yang memungkinkan pengguna untuk dengan mudah mengirim file kepada teman-teman mereka melalui tautan atau email. Dengan antarmuka yang bersih dan sederhana, KirimWoi menyederhanakan proses berbagi file, memastikan kecepatan dan kenyamanan.
 
-## Getting Started
+Fitur Utama
+Kirim File dengan Mudah: Unggah file apa pun dalam hitungan detik dengan antarmuka yang ramah pengguna.
 
-First, run the development server:
+Bagikan Melalui Tautan: Dapatkan tautan unik untuk file yang diunggah dan bagikan dengan teman-teman Anda dengan cepat.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Bagikan Melalui Email: Kirim file langsung ke kotak surat elektronik teman-teman Anda dengan opsi pengiriman melalui email.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Pantau Status Pengiriman: Lihat status pengiriman file Anda dan ketahui kapan teman Anda telah berhasil mengunduhnya.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Cara Menggunakan
+Unggah File: Pilih file yang ingin Anda kirim dan unggah melalui antarmuka KirimWoi.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Dapatkan Tautan: Setelah proses pengunggahan selesai, Anda akan menerima tautan unik untuk file tersebut.
 
-## Learn More
+Bagikan atau Kirim Melalui Email: Bagikan tautan dengan teman Anda atau kirim file langsung ke kotak surat mereka melalui opsi pengiriman email.
 
-To learn more about Next.js, take a look at the following resources:
+Pantau Status: Pantau status file yang Anda kirim dan ketahui kapan teman Anda telah mengaksesnya.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Persyaratan Pengembangan
+Node.js
+MongoDB
+Express.js
+Daftar Lengkap Persyaratan
