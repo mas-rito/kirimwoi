@@ -18,14 +18,12 @@ const HeaderComponent = () => {
           </span>
         </a>
         <div className="flex items-center gap-4">
-          <div className="sm:flex sm:gap-4">
-            <a
-              className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition"
-              href="/"
-            >
-              Get Started
-            </a>
-          </div>
+          <a
+            className="hidden md:block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition"
+            href="/"
+          >
+            Get Started
+          </a>
         </div>
       </div>
     </header>
