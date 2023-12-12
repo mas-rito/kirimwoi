@@ -24,8 +24,6 @@ const authOption: NextAuthOptions = {
           image: user.image,
         };
 
-        console.log(data);
-
         await login(data, (result: { status: boolean; data: any }) => {
           if (result.status) {
             token.email = result.data.email;

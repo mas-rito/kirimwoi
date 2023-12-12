@@ -1,10 +1,11 @@
 import React from "react";
+import HeaderComponent from "../_components/Header";
+import SideNavComponent from "../_components/SideNav";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <h2>Dashboard</h2>
-      {children}
+      <SideNavComponent>{children}</SideNavComponent>
     </>
   );
 };
