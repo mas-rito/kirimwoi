@@ -1,4 +1,11 @@
+import Link from "next/link";
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kirimwoi | Share your files",
+  description: "Take easy to share your files",
+};
 
 const HeroComponent = () => {
   return (
@@ -14,18 +21,18 @@ const HeroComponent = () => {
           </h1>
 
           <p className="mt-4 sm:text-xl/relaxed">
-            Memudahkan untuk mengirim dan berbagi file dengan teman-teman
-            melalui tautan atau email, memberikan pengalaman berbagi file yang
-            cepat, sederhana, dan efisien.
+            Memudahkan untuk mengirim dan berbagi file dengan melalui tautan
+            atau email, memberikan pengalaman berbagi file yang cepat,
+            sederhana, dan efisien.
           </p>
 
           <div className="mt-8 flex justify-center">
-            <a
+            <Link
               className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
-              href="/get-started"
+              href="/upload"
             >
               Kirim woi!
-            </a>
+            </Link>
           </div>
         </div>
       </div>

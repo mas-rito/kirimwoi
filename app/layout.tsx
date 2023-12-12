@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
+"use client";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Kirimwoi | Share your files",
-  description: "Take easy to share your files",
-};
 
 export default function RootLayout({
   children,
@@ -19,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   );
 }
