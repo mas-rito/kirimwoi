@@ -9,8 +9,6 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
 
-  console.log(pathname);
-
   const Menus = [
     {
       id: 1,

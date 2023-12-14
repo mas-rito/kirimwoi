@@ -3,12 +3,41 @@ import React, { useState } from "react";
 
 const UploadFormComponent = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [drag, setDrag] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
 
-    if (fileTarget) {
+    if (fileTarget && fileTarget.size > 105000000) {
+      alert("File is too big");
+    } else {
       setFile(fileTarget);
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setDrag(true);
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setDrag(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setDrag(false);
+
+    const droppedFiles = e.dataTransfer.files;
+    if (droppedFiles.length > 0) {
+      const droppedFile = droppedFiles[0];
+
+      if (droppedFile.size > 105000000) {
+        alert("File is too big");
+      } else {
+        setFile(droppedFile);
+      }
     }
   };
 
@@ -18,7 +47,12 @@ const UploadFormComponent = () => {
     <form className="flex flex-col items-center justify-center w-full mt-6">
       <label
         htmlFor="dropzone-file"
-        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+        onDragOver={handleDragStart}
+        onDragLeave={handleDragEnd}
+        onDrop={handleDrop}
+        className={`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 ${
+          drag && "border-primary bg-primary bg-opacity-10"
+        }`}
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
           <svg
