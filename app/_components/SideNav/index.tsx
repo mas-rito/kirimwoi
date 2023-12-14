@@ -2,10 +2,15 @@
 import { ArrowLeft, Files, ShieldPlus, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(true);
+  const pathname = usePathname();
+
+  console.log(pathname);
+
   const Menus = [
     {
       id: 1,
@@ -17,13 +22,13 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
       id: 2,
       title: "Files",
       icon: Files,
-      path: "/upload",
+      path: "/files",
     },
     {
       id: 3,
       title: "Upgrade",
       icon: ShieldPlus,
-      path: "/upload",
+      path: "/upgrade",
     },
   ];
 
@@ -31,11 +36,11 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
     <div className="flex">
       <div
         className={` ${
-          open ? "w-72" : "w-20 "
-        } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
+          open ? "w-72" : "w-20"
+        } bg-gray-50 h-screen p-5 pt-8 relative duration-300`}
       >
         <button
-          className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
+          className={`absolute cursor-pointer -right-3 top-9 w-7 bg-gray-50
            border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         >
@@ -47,7 +52,7 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
             width={50}
             height={50}
             alt="logo"
-            className={`shadow-custom cursor-pointer duration-500 ${
+            className={`shadow-custom duration-500 ${
               open && "rotate-[360deg]"
             }`}
           />
@@ -64,7 +69,9 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
             <li key={menu.id}>
               <Link
                 href={menu.path}
-                className="flex rounded-md p-3 cursor-pointer hover:bg-light-white bg-gray-50 text-gray-700 text-sm items-center gap-x-4"
+                className={`flex rounded-md p-3 cursor-pointer hover:bg-light-white hover:bg-gray-200 text-gray-700 text-sm items-center gap-x-4 ${
+                  pathname === menu.path && "bg-gray-200"
+                }`}
               >
                 <menu.icon size={20} />
                 <span
@@ -77,7 +84,7 @@ const SideNavComponent = ({ children }: { children: React.ReactNode }) => {
           ))}
         </ul>
       </div>
-      <div className="h-screen flex-1 p-7">{children}</div>
+      <div className="min-h-screen flex-1 p-7 relative">{children}</div>
     </div>
   );
 };
