@@ -36,7 +36,7 @@ const HeaderComponent = () => {
               className="hidden md:block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none w-auto"
               type="button"
               onClick={() =>
-                signIn("google", { callbackUrl: "/", redirect: false })
+                signIn("google", { callbackUrl: "/upload", redirect: false })
               }
             >
               Login

@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
+import { signIn, useSession } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Kirimwoi | Share your files",
@@ -8,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 const HeroComponent = () => {
+  const { status } = useSession();
+
   return (
     <section className="bg-gray-50">
       <div className="mx-auto max-w-screen-xl px-4 py-32 flex h-screen items-center">
@@ -27,12 +31,24 @@ const HeroComponent = () => {
           </p>
 
           <div className="mt-8 flex justify-center">
-            <Link
-              className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
-              href="/upload"
-            >
-              Kirim woi!
-            </Link>
+            {status === "unauthenticated" ? (
+              <button
+                type="button"
+                onClick={() => {
+                  signIn("google", { callbackUrl: "/upload", redirect: false });
+                }}
+                className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
+              >
+                Kirim woi!
+              </button>
+            ) : (
+              <Link
+                className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
+                href="/upload"
+              >
+                Kirim woi!
+              </Link>
+            )}
           </div>
         </div>
       </div>
