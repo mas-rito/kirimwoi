@@ -6,10 +6,11 @@ import SideInfo from "../_components/SideInfo";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <SideNavComponent>
+      <SideNavComponent />
+      <div className="lg:ml-64">
         <SideInfo />
         {children}
-      </SideNavComponent>
+      </div>
     </>
   );
 };
