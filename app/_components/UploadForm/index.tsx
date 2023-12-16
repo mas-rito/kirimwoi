@@ -1,12 +1,11 @@
 "use client";
+import { fileUpload } from "@/lib/firebase/services";
 import { File } from "lucide-react";
 import React, { useState } from "react";
 
 const UploadFormComponent = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
-
-  console.log("file is", file);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
@@ -41,6 +40,14 @@ const UploadFormComponent = () => {
       } else {
         setFile(droppedFile);
       }
+    }
+  };
+
+  const handleSubmit = () => {
+    if (file && file.size > 105000000) {
+      alert("File is too big");
+    } else {
+      fileUpload(file);
     }
   };
 
@@ -105,6 +112,8 @@ const UploadFormComponent = () => {
       <button
         className="mt-5 rounded-full bg-primary px-16 py-3 text-lg font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring disabled:bg-gray-500"
         disabled={!file}
+        type="button"
+        onClick={handleSubmit}
       >
         Upload
       </button>
