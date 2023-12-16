@@ -3,7 +3,7 @@ import React from "react";
 
 const UploadPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-full px-4 py-10">
+    <div className="flex flex-col justify-center items-center h-screen px-14">
       <h1 className="text-lg text-center md:text-xl lg:text-2xl">
         Start <span className="font-semibold text-primary">upload</span> your
         file and <span className="font-semibold text-primary">share</span> it.
