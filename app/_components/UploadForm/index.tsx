@@ -2,10 +2,12 @@
 import { fileUpload } from "@/lib/firebase/services";
 import { File } from "lucide-react";
 import React, { useState } from "react";
+import ProgressBar from "../ProgressBar";
 
 const UploadFormComponent = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
@@ -47,7 +49,7 @@ const UploadFormComponent = () => {
     if (file && file.size > 105000000) {
       alert("File is too big");
     } else {
-      fileUpload(file);
+      fileUpload(file, setProgress);
     }
   };
 
@@ -109,6 +111,8 @@ const UploadFormComponent = () => {
           onChange={handleFileChange}
         />
       </label>
+
+      {progress > 0 && <ProgressBar progress={progress} />}
       <button
         className="mt-5 rounded-full bg-primary px-16 py-3 text-lg font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring disabled:bg-gray-500"
         disabled={!file}

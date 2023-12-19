@@ -39,7 +39,10 @@ export async function login(data: any, callback: Function) {
   }
 }
 
-export async function fileUpload(file: any) {
+export async function fileUpload(
+  file: any,
+  setProgress: React.Dispatch<React.SetStateAction<number>>
+) {
   const metadata = {
     contentType: file.type,
   };
@@ -52,7 +55,8 @@ export async function fileUpload(file: any) {
   uploadTask.on("state_changed", (snapshot) => {
     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log("Upload is " + progress + "% done");
+    // console.log("Upload is " + progress + "% done");
+    setProgress(progress);
     switch (snapshot.state) {
       case "paused":
         console.log("Upload is paused");
