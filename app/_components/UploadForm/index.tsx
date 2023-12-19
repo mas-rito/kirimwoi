@@ -3,11 +3,15 @@ import { fileUpload } from "@/lib/firebase/services";
 import { File } from "lucide-react";
 import React, { useState } from "react";
 import ProgressBar from "../ProgressBar";
+import { useSession } from "next-auth/react";
 
 const UploadFormComponent = () => {
+  const session = useSession();
+
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
   const [progress, setProgress] = useState<number>(0);
+  const [fileUrl, setFileUrl] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
@@ -45,11 +49,12 @@ const UploadFormComponent = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (file && file.size > 105000000) {
       alert("File is too big");
     } else {
-      fileUpload(file, setProgress);
+      await fileUpload(file, session.data?.user, setProgress, setFileUrl);
+      console.log("File URL:", fileUrl);
     }
   };
 
