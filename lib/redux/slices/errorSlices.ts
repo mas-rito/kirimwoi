@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const counterSlice = createSlice({
+export const errorSlice = createSlice({
   name: "error",
   initialState: {
     isError: "",
@@ -8,12 +8,11 @@ export const counterSlice = createSlice({
   reducers: {
     setError: (state, action) => {
       state.isError = action.payload;
-      console.log(state.isError);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setError } = counterSlice.actions;
+export const { setError } = errorSlice.actions;
 
-export default counterSlice.reducer;
+export default errorSlice.reducer;

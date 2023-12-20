@@ -50,7 +50,8 @@ export async function fileUpload(
   file: any,
   user: any,
   setProgress: React.Dispatch<React.SetStateAction<number>>,
-  setError: (error: string) => void
+  setError: (error: string) => void,
+  setModal: (isOpen: boolean) => void
 ) {
   const metadata = {
     contentType: file.type,
@@ -81,8 +82,6 @@ export async function fileUpload(
           shortUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/${docId}`,
         };
 
-        console.log(data);
-
         // Get download URL and set data in Firestore
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
@@ -91,8 +90,7 @@ export async function fileUpload(
             // Set data in Firestore
             setDoc(doc(firestore, "files", docId), data)
               .then(() => {
-                console.log("Data saved successfully");
-                setError("File uploaded successfully");
+                setModal(true);
               })
               .catch((error) => {
                 setError(error);
