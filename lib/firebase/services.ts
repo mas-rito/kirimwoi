@@ -50,7 +50,7 @@ export async function fileUpload(
   file: any,
   user: any,
   setProgress: React.Dispatch<React.SetStateAction<number>>,
-  setFileUrl: React.Dispatch<React.SetStateAction<string>>
+  setError: (error: string) => void
 ) {
   const metadata = {
     contentType: file.type,
@@ -86,49 +86,24 @@ export async function fileUpload(
         // Get download URL and set data in Firestore
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
-            setFileUrl(downloadURL);
             data.url = downloadURL;
 
             // Set data in Firestore
             setDoc(doc(firestore, "files", docId), data)
               .then(() => {
                 console.log("Data saved successfully");
+                setError("File uploaded successfully");
               })
               .catch((error) => {
-                console.error("Error saving data to Firestore:", error);
+                setError(error);
               });
           })
           .catch((error) => {
-            console.error("Error getting download URL:", error);
+            setError("Error during file upload: " + error);
           });
       }
     });
   } catch (error) {
-    console.error("Error during file upload:", error);
+    setError("Error during file upload: " + error);
   }
-}
-
-export async function saveDataFile(file: any, user: any, fileUrl: string) {
-  console.log(user);
-
-  const docId = generateRandomString(6);
-  const data = {
-    id: docId,
-    name: file?.name,
-    size: file?.size,
-    type: file?.type,
-    // url: fileUrl,
-    userName: user?.name,
-    userEmail: user?.email,
-    password: "",
-    // shortUrl: process.env.NEXT_PUBLIC_DOMAIN + "/" + docId,
-  };
-
-  await setDoc(doc(firestore, "files", docId), data)
-    .then(() => {
-      console.log("data saved");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 }

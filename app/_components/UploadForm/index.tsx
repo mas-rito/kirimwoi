@@ -4,20 +4,23 @@ import { File } from "lucide-react";
 import React, { useState } from "react";
 import ProgressBar from "../ProgressBar";
 import { useSession } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { setError } from "@/lib/redux/slices/errorSlices";
 
 const UploadFormComponent = () => {
   const session = useSession();
+  const dispatch = useDispatch();
 
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
   const [progress, setProgress] = useState<number>(0);
-  const [fileUrl, setFileUrl] = useState<string>("");
+  const handleError = (error: string) => dispatch(setError(error));
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
 
     if (fileTarget && fileTarget.size > 105000000) {
-      alert("File is too big");
+      dispatch(setError("File is too big"));
     } else {
       setFile(fileTarget);
     }
@@ -42,7 +45,7 @@ const UploadFormComponent = () => {
       const droppedFile = droppedFiles[0];
 
       if (droppedFile.size > 105000000) {
-        alert("File is too big");
+        dispatch(setError("File is too big"));
       } else {
         setFile(droppedFile);
       }
@@ -51,10 +54,11 @@ const UploadFormComponent = () => {
 
   const handleSubmit = async () => {
     if (file && file.size > 105000000) {
-      alert("File is too big");
+      dispatch(setError("File is too big"));
     } else {
-      await fileUpload(file, session.data?.user, setProgress, setFileUrl);
-      console.log("File URL:", fileUrl);
+      await fileUpload(file, session.data?.user, setProgress, handleError);
+      setFile(undefined);
+      setProgress(0);
     }
   };
 
