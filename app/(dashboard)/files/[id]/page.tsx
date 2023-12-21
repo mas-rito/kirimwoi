@@ -1,7 +1,15 @@
-import React from "react";
+import FileInfo from "@/app/_components/FileInfo";
+import { getData } from "@/services";
 
-const singleFile = ({ params }: { params: { id: string } }) => {
-  return <div>singleFile {params.id}</div>;
+const SingleFile = async ({ params }: { params: { id: string } }) => {
+  const file = await getData(`http://localhost:3000/api/files?id=${params.id}`);
+  const fileShortUrl = process.env.NEXT_PUBLIC_DOMAIN + "/" + file.data.id;
+
+  return (
+    <div className="relative flex flex-col justify-center items-center h-screen px-14">
+      <FileInfo data={file.data} fileUrl={fileShortUrl} />
+    </div>
+  );
 };
 
-export default singleFile;
+export default SingleFile;

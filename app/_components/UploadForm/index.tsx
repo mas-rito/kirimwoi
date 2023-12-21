@@ -16,9 +16,13 @@ const UploadFormComponent = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
   const [progress, setProgress] = useState<number>(0);
-  const isModalOpen = useSelector((state: any) => state.isModalOpen.isOpen);
+  const modal = useSelector((state: any) => state.isModalOpen.isOpen);
   const handleError = (error: string) => dispatch(setError(error));
-  const handleModal = (isOpen: boolean) => dispatch(setIsModalOpen({ isOpen }));
+  const handleModal = ({
+    isOpen: { status, url },
+  }: {
+    isOpen: { status: boolean; url: string };
+  }) => dispatch(setIsModalOpen({ status, url }));
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0];
@@ -77,7 +81,7 @@ const UploadFormComponent = () => {
 
   return (
     <>
-      {isModalOpen && <ModalComponent onReset={handleReset} />}
+      {modal.status && <ModalComponent onReset={handleReset} url={modal.url} />}
       <form className="flex flex-col items-center justify-center w-full mt-6">
         <label
           htmlFor="dropzone-file"
@@ -92,7 +96,7 @@ const UploadFormComponent = () => {
             {file ? (
               <>
                 <File size={48} color="#32363F" />
-                <h1 className="my-2 text-md font-medium text-gray-600">
+                <h1 className="my-2 text-md font-medium text-gray-600 text-center">
                   {file.name}
                 </h1>
                 <p className="text-xs text-gray-500">

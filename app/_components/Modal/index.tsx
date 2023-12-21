@@ -1,9 +1,16 @@
 import { setIsModalOpen } from "@/lib/redux/slices/modalSlice";
 import { CheckCircle2, X } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-const ModalComponent = ({ onReset }: { onReset: () => void }) => {
+const ModalComponent = ({
+  onReset,
+  url,
+}: {
+  onReset: () => void;
+  url: string;
+}) => {
   const dispatch = useDispatch();
   const handleOnclick = () => {
     onReset();
@@ -38,13 +45,12 @@ const ModalComponent = ({ onReset }: { onReset: () => void }) => {
                 No, thanks
               </button>
 
-              <button
-                type="button"
-                onClick={handleOnclick}
+              <Link
+                href={`/files/${url}`}
                 className="text-white bg-primary font-medium rounded-lg text-sm px-5 py-2.5"
               >
                 Yes, Kirimin!
-              </button>
+              </Link>
             </div>
           </div>
         </div>

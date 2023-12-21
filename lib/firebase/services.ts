@@ -52,7 +52,11 @@ export async function fileUpload(
   user: any,
   setProgress: React.Dispatch<React.SetStateAction<number>>,
   setError: (error: string) => void,
-  setModal: (isOpen: boolean) => void
+  setModal: ({
+    isOpen: { status, url },
+  }: {
+    isOpen: { status: boolean; url: string };
+  }) => void
 ) {
   const metadata = {
     contentType: file.type,
@@ -91,7 +95,12 @@ export async function fileUpload(
             // Set data in Firestore
             setDoc(doc(firestore, "files", docId), data)
               .then(() => {
-                setModal(true);
+                setModal({
+                  isOpen: {
+                    status: true,
+                    url: docId,
+                  },
+                });
               })
               .catch((error) => {
                 setError(error);
