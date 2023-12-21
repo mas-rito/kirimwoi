@@ -6,7 +6,7 @@ const SingleFile = async ({ params }: { params: { id: string } }) => {
   const fileShortUrl = process.env.NEXT_PUBLIC_DOMAIN + "/" + file.data.id;
 
   return (
-    <div className="relative flex flex-col justify-center items-center h-screen px-14">
+    <div className="flex justify-center items-center h-screen px-14">
       <FileInfo data={file.data} fileUrl={fileShortUrl} />
     </div>
   );

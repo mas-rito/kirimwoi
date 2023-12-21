@@ -16,15 +16,15 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
   };
 
   return (
-    <div className="flex gap-2 w-11/12">
-      <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-3/5 p-2">
+    <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-11/12 mt-20">
+      <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-full lg:w-3/5 p-2">
         {data.type === "image/jpeg" || data.type === "image/png" ? (
           <Image
             src={data.url}
             alt={data.name}
             width={300}
             height={300}
-            className="rounded w-98 h-98"
+            className="rounded w-full lg:w-fit"
           />
         ) : (
           <>
@@ -56,7 +56,7 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
           </div>
         </div>
         <div className="flex justify-between items-center w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
-          <p className="text-gray-800">{fileUrl}</p>
+          <p className="text-gray-800 truncate">{fileUrl}</p>
           <button
             className="hover:bg-gray-100 p-2 rounded"
             type="button"
