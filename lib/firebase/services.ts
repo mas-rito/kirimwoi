@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -104,4 +105,10 @@ export async function fileUpload(
   } catch (error) {
     setError("Error during file upload: " + error);
   }
+}
+
+export async function retrieveDataById(collectionName: string, id: string) {
+  const snapshot = await getDoc(doc(firestore, collectionName, id));
+  const data = snapshot.data();
+  return data;
 }
