@@ -1,5 +1,5 @@
 import FileInfo from "@/app/_components/FileInfo";
-import { getData } from "@/services";
+import { getData } from "@/services/files";
 
 const SingleFile = async ({ params }: { params: { id: string } }) => {
   const file = await getData(`http://localhost:3000/api/files?id=${params.id}`);

@@ -1,10 +1,15 @@
 "use client";
-import { Check, File, Files } from "lucide-react";
+import { savePassword } from "@/lib/firebase/services";
+import { Check, Eye, EyeOff, File, Files } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
 const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const [isReveal, setIsReveal] = useState(false);
+  const [password, setPassword] = useState(data.password);
+  console.log(data.password);
+  console.log(password);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(fileUrl);
@@ -13,6 +18,18 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
     setTimeout(() => {
       setIsCopied(false);
     }, 3000);
+  };
+
+  const seePasword = () => {
+    setIsReveal(!isReveal);
+  };
+
+  const HandleSavePassword = () => {
+    if (password) {
+      savePassword({ id: data.id, password: password });
+    } else {
+      return;
+    }
   };
 
   return (
@@ -70,13 +87,33 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
             <label htmlFor="password" className="text-gray-800">
               File Password
             </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full p-2 border rounded focus:outline-gray-400"
-            />
+            <div className="relative">
+              <input
+                type={isReveal ? "text" : "password"}
+                id="password"
+                className="w-full p-2 border rounded focus:outline-gray-400"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+              <button
+                type="button"
+                className="absolute top-1/2 right-3 -translate-y-1/2"
+                onClick={seePasword}
+              >
+                {isReveal ? (
+                  <EyeOff color="#4b5563" />
+                ) : (
+                  <Eye color="#4b5563" />
+                )}
+              </button>
+            </div>
           </div>
-          <button className="bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded">
+          <button
+            type="button"
+            className="bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded disabled:bg-gray-500"
+            disabled={password === ""}
+            onClick={HandleSavePassword}
+          >
             save
           </button>
         </div>

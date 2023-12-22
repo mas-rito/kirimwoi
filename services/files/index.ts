@@ -1,5 +1,7 @@
 export const getData = async (url: string) => {
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    cache: "no-store",
+  });
 
   console.log(url);
 

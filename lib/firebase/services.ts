@@ -116,6 +116,17 @@ export async function fileUpload(
   }
 }
 
+export async function savePassword({
+  id,
+  password,
+}: {
+  id: string;
+  password: string;
+}) {
+  const docRef = doc(firestore, "files", id);
+  await updateDoc(docRef, { password: password });
+}
+
 export async function retrieveDataById(collectionName: string, id: string) {
   const snapshot = await getDoc(doc(firestore, collectionName, id));
   const data = snapshot.data();
