@@ -1,37 +1,16 @@
 "use client";
-import { savePassword } from "@/lib/firebase/services";
-import { Check, Eye, EyeOff, File, Files } from "lucide-react";
+import { Eye, EyeOff, File } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
-  const [isCopied, setIsCopied] = useState(false);
+const FileShowComponent = ({ data }: { data: any }) => {
   const [isReveal, setIsReveal] = useState(false);
-  const [password, setPassword] = useState(data.password);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(fileUrl);
-    setIsCopied(true);
-
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 3000);
-  };
-
   const seePasword = () => {
     setIsReveal(!isReveal);
   };
 
-  const HandleSavePassword = () => {
-    if (password) {
-      savePassword({ id: data.id, password: password });
-    } else {
-      return;
-    }
-  };
-
   return (
-    <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-11/12 mt-20">
+    <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-10/12">
       <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-full lg:w-3/5 p-2">
         {data.type === "image/jpeg" || data.type === "image/png" ? (
           <Image
@@ -70,16 +49,6 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
             <h1 className="truncate">{data.type}</h1>
           </div>
         </div>
-        <div className="flex justify-between items-center w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
-          <p className="text-gray-800 truncate">{fileUrl}</p>
-          <button
-            className="hover:bg-gray-100 p-2 rounded"
-            type="button"
-            onClick={copyToClipboard}
-          >
-            {isCopied ? <Check color="#16a34a" /> : <Files color="#4b5563" />}
-          </button>
-        </div>
         <div className="flex justify-between items-end gap-6 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
           <div className="w-full">
             <label htmlFor="password" className="text-gray-800">
@@ -90,8 +59,6 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
                 type={isReveal ? "text" : "password"}
                 id="password"
                 className="w-full p-2 border rounded focus:outline-gray-400"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
               />
               <button
                 type="button"
@@ -106,18 +73,15 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
               </button>
             </div>
           </div>
-          <button
-            type="button"
-            className="bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded disabled:bg-gray-500"
-            disabled={password === ""}
-            onClick={HandleSavePassword}
-          >
-            save
-          </button>
         </div>
+        <a href={data.url} download={data.name}>
+          <button className="w-full bg-primary text-white py-3 rounded mt-2">
+            Download
+          </button>
+        </a>
       </div>
     </div>
   );
 };
 
-export default FileInfo;
+export default FileShowComponent;

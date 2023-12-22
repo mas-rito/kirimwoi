@@ -84,7 +84,6 @@ export async function fileUpload(
           userName: user?.name,
           userEmail: user?.email,
           password: "",
-          shortUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/${docId}`,
         };
 
         // Get download URL and set data in Firestore
