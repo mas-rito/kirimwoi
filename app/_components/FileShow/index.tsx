@@ -1,12 +1,37 @@
 "use client";
+import axios from "axios";
 import { Eye, EyeOff, File } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
 const FileShowComponent = ({ data }: { data: any }) => {
   const [isReveal, setIsReveal] = useState(false);
+  const [inputPassword, setInputPassword] = useState("");
+  const [base64, setBase64] = useState("");
   const seePasword = () => {
     setIsReveal(!isReveal);
+  };
+
+  console.log(base64);
+
+  const handleDownload = async (url: string, fileName: string) => {
+    try {
+      const response = await axios.get(url, { responseType: "blob" });
+      const blob = new Blob([response.data]);
+
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName || "downloaded-file";
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
   };
 
   return (
@@ -59,6 +84,7 @@ const FileShowComponent = ({ data }: { data: any }) => {
                 type={isReveal ? "text" : "password"}
                 id="password"
                 className="w-full p-2 border rounded focus:outline-gray-400"
+                onChange={(e) => setInputPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -74,11 +100,21 @@ const FileShowComponent = ({ data }: { data: any }) => {
             </div>
           </div>
         </div>
-        <a href={data.url} download={data.name}>
-          <button className="w-full bg-primary text-white py-3 rounded mt-2">
+        {inputPassword === data.password ? (
+          <button
+            onClick={() => handleDownload(data.url, data.name)}
+            className="w-full bg-primary text-white py-3 rounded mt-2"
+          >
             Download
           </button>
-        </a>
+        ) : (
+          <button
+            disabled
+            className="w-full bg-primary text-white py-3 rounded mt-2 disabled:bg-gray-500"
+          >
+            Download
+          </button>
+        )}
       </div>
     </div>
   );
