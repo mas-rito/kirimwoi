@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 const FileListComponent = () => {
   const session = useSession();
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [checked, setChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -25,6 +26,10 @@ const FileListComponent = () => {
 
     fetchData();
   }, [session.data?.user?.email]);
+
+  const filteredData = data.filter((item: any) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleCheckAll = () => {
     setChecked(!checked);
@@ -56,6 +61,8 @@ const FileListComponent = () => {
           </div>
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 bg-gray-50"
             placeholder="Search for items"
           />
@@ -89,7 +96,7 @@ const FileListComponent = () => {
           </thead>
           <tbody>
             {data &&
-              data.map((item: any) => (
+              filteredData.map((item: any) => (
                 <tr
                   key={item.id}
                   className="bg-white border-b hover:bg-gray-50"
