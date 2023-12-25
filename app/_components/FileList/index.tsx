@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 const FileListComponent = () => {
   const session = useSession();
   const [data, setData] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +25,26 @@ const FileListComponent = () => {
 
     fetchData();
   }, [session.data?.user?.email]);
+
+  const handleCheckAll = () => {
+    setChecked(!checked);
+    if (!checked) {
+      // If not checked, set all items as selected
+      setSelectedItems((data ?? []).map((item: { id: string }) => item.id));
+    } else {
+      // If checked, clear the selected items
+      setSelectedItems([]);
+    }
+  };
+
+  const handleCheckboxChange = (itemId: string) => {
+    // Toggle the item's selection state
+    if (selectedItems.includes(itemId)) {
+      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    } else {
+      setSelectedItems([...selectedItems, itemId]);
+    }
+  };
 
   return (
     <div className="w-full rounded bg-gray-100 p-3">
@@ -48,6 +70,8 @@ const FileListComponent = () => {
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
+                    onChange={handleCheckAll}
+                    checked={checked}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                   />
                   <label htmlFor="checkbox-all-search" className="sr-only">
@@ -73,8 +97,10 @@ const FileListComponent = () => {
                   <td className="w-4 p-4">
                     <div className="flex items-center">
                       <input
-                        id="checkbox-table-search-1"
+                        id={`checkbox-table-search-${item.id}`}
                         type="checkbox"
+                        checked={selectedItems.includes(item.id)}
+                        onChange={() => handleCheckboxChange(item.id)}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                       />
                       <label
@@ -91,7 +117,7 @@ const FileListComponent = () => {
                   >
                     <Link
                       href={`/files/${item.id}`}
-                      className="hover:text-blue-600"
+                      className="hover:text-blue-600 truncate"
                     >
                       {item.name}
                     </Link>
