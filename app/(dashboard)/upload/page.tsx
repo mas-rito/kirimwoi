@@ -4,7 +4,7 @@ import React from "react";
 
 const UploadPage = () => {
   return (
-    <div className="relative flex flex-col justify-center items-center h-screen px-14">
+    <div className="relative flex flex-col justify-center items-center px-6 md:px-10 lg:px-14">
       <AlertComponent />
       <h1 className="text-lg text-center md:text-xl lg:text-2xl">
         Start <span className="font-semibold text-primary">upload</span> your

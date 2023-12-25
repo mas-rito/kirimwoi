@@ -1,9 +1,10 @@
-import { retrieveDataById } from "@/lib/firebase/services";
+import { retrieveData, retrieveDataById } from "@/lib/firebase/services";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
+  const email = searchParams.get("email");
 
   if (id) {
     const singleData = await retrieveDataById("files", id);
@@ -20,5 +21,14 @@ export async function GET(request: NextRequest) {
         data: {},
       });
     }
+  }
+  if (email) {
+    const filesByUser = await retrieveData("files", email);
+
+    return NextResponse.json({
+      status: 200,
+      message: "Successfully",
+      data: filesByUser,
+    });
   }
 }

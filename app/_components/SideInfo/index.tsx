@@ -7,18 +7,18 @@ const SideInfo = () => {
   const session = useSession();
 
   return (
-    <div className="absolute z-20 top-4 right-8">
+    <div className="w-full flex justify-end my-6 pr-10">
       <button
         type="button"
-        className="flex gap-4 items-center rounded-full bg-gray-50 px-4"
+        className="flex gap-4 items-center rounded-full bg-gray-50 pl-4"
       >
         <h3 className="truncate">{session.data?.user?.name}</h3>
         <Image
           src={session.data?.user?.image || "/icons/profile.png"}
           alt={session.data?.user?.name || "profile"}
           className="rounded-full"
-          width={50}
-          height={50}
+          width={30}
+          height={30}
         />
       </button>
     </div>

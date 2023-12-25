@@ -131,3 +131,22 @@ export async function retrieveDataById(collectionName: string, id: string) {
   const data = snapshot.data();
   return data;
 }
+
+export async function retrieveData(
+  collectionName: string,
+  email: string | null
+) {
+  const q = query(
+    collection(firestore, collectionName),
+    where("userEmail", "==", email)
+  );
+
+  const snapshot = await getDocs(q);
+
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return data;
+}

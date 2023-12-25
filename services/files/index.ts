@@ -3,8 +3,6 @@ export const getData = async (url: string) => {
     cache: "no-store",
   });
 
-  console.log(url);
-
   if (!response.ok) {
     throw new Error("Failed to fetch data");
   }
