@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import SideAction from "./SideAction";
 
 const FileListComponent = () => {
   const session = useSession();
@@ -52,97 +53,70 @@ const FileListComponent = () => {
   };
 
   return (
-    <div className="w-full rounded bg-gray-100 p-3">
-      <div className="flex justify-end md:justify-between items-center">
-        <h1 className="hidden md:block text-2xl">Your files</h1>
-        <div className="relative my-2">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3">
-            <Search color="#32363F" />
-          </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 bg-gray-50"
-            placeholder="Search for items"
-          />
-        </div>
+    <>
+      <div
+        className={`fixed z-10 ${
+          checked || selectedItems.length ? "right-2" : "-right-[100%]"
+        } top-20 transition-all duration-200 ease-in-out`}
+      >
+        <SideAction checked={checked} />
       </div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th scope="col" className="p-4">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    onChange={handleCheckAll}
-                    checked={checked}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data &&
-              filteredData.map((item: any) => (
-                <tr
-                  key={item.id}
-                  className="bg-white border-b hover:bg-gray-50"
-                >
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id={`checkbox-table-search-${item.id}`}
-                        type="checkbox"
-                        checked={selectedItems.includes(item.id)}
-                        onChange={() => handleCheckboxChange(item.id)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-1"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+      <div className="w-full rounded bg-gray-100 p-3">
+        <div className="flex justify-end md:justify-between items-center">
+          <h1 className="hidden md:block text-2xl">Your files</h1>
+          <div className="relative my-2">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3">
+              <Search color="#32363F" />
+            </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 bg-gray-50"
+              placeholder="Search for items"
+            />
+          </div>
+        </div>
+        <div className="shadow-md sm:rounded-lg">
+          <div className="w-full text-sm text-left text-gray-500">
+            <div className="flex items-center gap-x-6 text-md text-gray-700 uppercase bg-gray-50 py-3 px-4">
+              <input
+                id="checkbox-all-search"
+                type="checkbox"
+                onChange={handleCheckAll}
+                checked={checked}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <h1 className="font-semibold">Name</h1>
+            </div>
+            <div className="h-96 overflow-y-auto">
+              {data &&
+                filteredData.map((item: any) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-x-6 bg-white border-b hover:bg-gray-50 py-3 px-4"
                   >
+                    <input
+                      id={`checkbox-table-search-${item.id}`}
+                      type="checkbox"
+                      checked={selectedItems.includes(item.id)}
+                      onChange={() => handleCheckboxChange(item.id)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                    />
+
                     <Link
                       href={`/files/${item.id}`}
-                      className="hover:text-blue-600 truncate"
+                      className="hover:text-blue-600 font-medium text-gray-900 w-[80%] truncate"
                     >
                       {item.name}
                     </Link>
-                  </th>
-                  <td className="px-6 py-4">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

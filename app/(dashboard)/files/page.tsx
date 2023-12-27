@@ -3,7 +3,7 @@ import React from "react";
 
 const FilesPage = () => {
   return (
-    <div className="px-6 md:px-10 lg:px-14">
+    <div className="relative overflow-hidden px-6 md:px-10 lg:px-14">
       <FileListComponent />
     </div>
   );
