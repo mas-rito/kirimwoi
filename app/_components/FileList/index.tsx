@@ -6,12 +6,17 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import SideAction from "./SideAction";
 
+interface DataItem {
+  id: string;
+  fileRef: string;
+}
+
 const FileListComponent = () => {
   const session = useSession();
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [checked, setChecked] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,19 +41,20 @@ const FileListComponent = () => {
     setChecked(!checked);
     if (!checked) {
       // If not checked, set all items as selected
-      setSelectedItems((data ?? []).map((item: { id: string }) => item.id));
+      setSelectedItems((data ?? []).map((item: DataItem) => item));
     } else {
-      // If checked, clear the selected items
       setSelectedItems([]);
     }
   };
 
-  const handleCheckboxChange = (itemId: string) => {
+  const handleCheckboxChange = (item: DataItem) => {
     // Toggle the item's selection state
-    if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+    if (selectedItems.some((selectedItem) => selectedItem.id === item.id)) {
+      setSelectedItems(
+        selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
+      );
     } else {
-      setSelectedItems([...selectedItems, itemId]);
+      setSelectedItems([...selectedItems, item]);
     }
   };
 
@@ -99,8 +105,15 @@ const FileListComponent = () => {
                     <input
                       id={`checkbox-table-search-${item.id}`}
                       type="checkbox"
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => handleCheckboxChange(item.id)}
+                      checked={selectedItems.some(
+                        (selectedItem) => selectedItem.id === item.id
+                      )}
+                      onChange={() =>
+                        handleCheckboxChange({
+                          id: item.id,
+                          fileRef: item.fileRef,
+                        })
+                      }
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                     />
 

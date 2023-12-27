@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -81,6 +82,7 @@ export async function fileUpload(
           size: file?.size,
           type: file?.type,
           url: "",
+          fileRef: file?.name,
           userName: user?.name,
           userEmail: user?.email,
           password: "",
@@ -149,4 +151,9 @@ export async function retrieveData(
   }));
 
   return data;
+}
+
+export async function deleteData(collectionName: string, id: string) {
+  const docRef = doc(firestore, collectionName, id);
+  await deleteDoc(docRef);
 }
