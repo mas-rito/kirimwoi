@@ -13,7 +13,7 @@ export default function withAuth(
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
 
-    if (requireAuth.includes(pathname)) {
+    if (requireAuth.some((auth) => pathname.startsWith(auth))) {
       const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,

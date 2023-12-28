@@ -6,4 +6,4 @@ export function mainMiddleware(request: NextRequest) {
   return res;
 }
 
-export default withAuth(mainMiddleware, ["/upload", "/files", "/files/[id]"]);
+export default withAuth(mainMiddleware, ["/upload", "/files"]);
