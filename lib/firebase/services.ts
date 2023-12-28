@@ -10,15 +10,22 @@ import {
   setDoc,
   updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import app from "./init";
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
 import { generateRandomString } from "../generateRandomString";
+
+interface DataItem {
+  id: string;
+  fileRef: string;
+}
 
 const firestore = getFirestore(app);
 const storage = getStorage(app);
@@ -153,7 +160,24 @@ export async function retrieveData(
   return data;
 }
 
-export async function deleteData(collectionName: string, id: string) {
-  const docRef = doc(firestore, collectionName, id);
-  await deleteDoc(docRef);
+export async function deleteData(collectionName: string, item: DataItem[]) {
+  const batch = writeBatch(firestore);
+  const storageDeletePromises: Promise<any>[] = [];
+
+  item.forEach((item) => {
+    const storageRef = ref(storage, `files/${item.fileRef}`);
+    const storageDeletePromise = deleteObject(storageRef);
+    storageDeletePromises.push(storageDeletePromise);
+
+    const docRef = doc(firestore, collectionName, item.id);
+    batch.delete(docRef);
+  });
+
+  try {
+    await Promise.all(storageDeletePromises);
+    await batch.commit();
+    console.log("Data deleted successfully");
+  } catch (error) {
+    console.error("Error deleting data:", error);
+  }
 }
