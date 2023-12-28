@@ -17,12 +17,13 @@ const FileListComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [checked, setChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
+  const domain = "http://localhost:3000";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await getData(
-          `http://localhost:3000/api/files?email=${session.data?.user?.email}`
+          `${domain}/api/files?email=${session.data?.user?.email}`
         );
         setData(result.data);
       } catch (error) {
@@ -31,7 +32,7 @@ const FileListComponent = () => {
     };
 
     fetchData();
-  }, [session.data?.user?.email]);
+  }, [session.data?.user?.email, domain]);
 
   const filteredData = data.filter((item: any) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
