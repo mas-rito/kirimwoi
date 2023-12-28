@@ -13,7 +13,7 @@ const SideInfo = () => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex gap-4 items-center rounded-full bg-gray-50 pl-4"
+        className="flex gap-4 items-center rounded-full bg-gray-100 pl-4"
       >
         <h3 className="truncate">{session.data?.user?.name}</h3>
         <Image
@@ -24,10 +24,12 @@ const SideInfo = () => {
           height={40}
         />
       </button>
-      <div className={`absolute z-10 right-0 ${open ? "block" : "hidden"}`}>
+      <div
+        className={`absolute z-10 right-0 mt-1 ${open ? "block" : "hidden"}`}
+      >
         <button
           onClick={() => signOut()}
-          className="flex gap-2 mt-2 bg-gray-100 px-4 py-2 rounded-md shadow-sm"
+          className="flex gap-2 items-center bg-gray-100 px-4 py-2 rounded-md shadow-sm"
         >
           Logout
           <LogOut color="#32363F" />

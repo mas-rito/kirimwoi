@@ -3,6 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import SideInfo from "../SideInfo";
 
 const HeaderComponent = () => {
   const { status } = useSession();
@@ -24,13 +25,7 @@ const HeaderComponent = () => {
         </Link>
         <div className="flex items-center gap-4">
           {status === "authenticated" ? (
-            <button
-              className="hidden md:block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none w-auto"
-              type="button"
-              onClick={() => signOut()}
-            >
-              Logout
-            </button>
+            <SideInfo />
           ) : (
             <button
               className="hidden md:block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none w-auto"
