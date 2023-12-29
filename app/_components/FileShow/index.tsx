@@ -7,12 +7,9 @@ import React, { useState } from "react";
 const FileShowComponent = ({ data }: { data: any }) => {
   const [isReveal, setIsReveal] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
-  const [base64, setBase64] = useState("");
   const seePasword = () => {
     setIsReveal(!isReveal);
   };
-
-  console.log(base64);
 
   const handleDownload = async (url: string, fileName: string) => {
     try {
