@@ -9,7 +9,7 @@ const HeaderComponent = () => {
   const { status } = useSession();
 
   return (
-    <header className="flex fixed top-0 z-50 w-full h-20 items-center gap-8 px-4 sm:px-6 lg:px-8 shadow-sm">
+    <header className="flex fixed top-0 z-50 w-full h-20 bg-gray-50 bg-opacity-75 items-center gap-8 px-4 sm:px-6 lg:px-8 shadow-sm">
       <div className="flex flex-1 md:mx-4 lg:mx-10 items-center justify-between">
         <Link className="flex items-center text-primary" href="/">
           <Image

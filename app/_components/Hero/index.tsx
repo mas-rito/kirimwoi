@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
 import { signIn, useSession } from "next-auth/react";
+import CopyrightComponent from "../Copyright";
 
 export const metadata: Metadata = {
   title: "Kirimwoi | Share your files",
@@ -13,7 +14,10 @@ const HeroComponent = () => {
   const { status } = useSession();
 
   return (
-    <section className="bg-gray-50">
+    <section
+      className="bg-gray-50 bg-repeat"
+      style={{ backgroundImage: "url(/grid.svg)" }}
+    >
       <div className="mx-auto max-w-screen-xl px-4 py-32 flex h-screen items-center">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
@@ -52,9 +56,9 @@ const HeroComponent = () => {
           </div>
         </div>
       </div>
-      <p className=" absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-gray-600 text-sm">
-        Copyright © 2023 Kirimwoi
-      </p>
+      <div className="flex justify-center">
+        <CopyrightComponent />
+      </div>
     </section>
   );
 };
