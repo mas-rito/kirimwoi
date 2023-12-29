@@ -13,7 +13,7 @@ const SideInfo = () => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex gap-4 items-center rounded-full bg-gray-100 pl-4"
+        className="flex gap-4 items-center rounded-full bg-gray-100 ps-4 pe-1 py-1"
       >
         <h3 className="truncate">{session.data?.user?.name}</h3>
         <Image
