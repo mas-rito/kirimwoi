@@ -31,7 +31,7 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
   };
 
   return (
-    <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-11/12 mt-20">
+    <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-11/12 md:mt-10 lg:mt-20">
       <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-full lg:w-3/5 p-2">
         {data.type === "image/jpeg" || data.type === "image/png" ? (
           <Image
@@ -57,17 +57,17 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
         <div className="w-full bg-gray-50 py-3 px-4 rounded-md">
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Name :</h2>
-            <h1 className="truncate">{data.name}</h1>
+            <h1 className="truncate w-3/5 lg:w-4/5">{data.name}</h1>
           </div>
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Size :</h2>
-            <h1 className="truncate">
+            <h1 className="truncate w-3/5 lg:w-4/5">
               {Number(data.size / (1024 * 1024)).toFixed(2)} MB
             </h1>
           </div>
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Type :</h2>
-            <h1 className="truncate">{data.type}</h1>
+            <h1 className="truncate w-3/5 lg:w-4/5">{data.type}</h1>
           </div>
         </div>
         <div className="flex justify-between items-center w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">

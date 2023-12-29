@@ -61,17 +61,17 @@ const FileShowComponent = ({ data }: { data: any }) => {
         <div className="w-full bg-gray-50 py-3 px-4 rounded-md">
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Name :</h2>
-            <h1 className="truncate">{data.name}</h1>
+            <h1 className="truncate w-3/5 lg:w-4/5">{data.name}</h1>
           </div>
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Size :</h2>
-            <h1 className="truncate">
+            <h1 className="truncate w-3/5 lg:w-4/5">
               {Number(data.size / (1024 * 1024)).toFixed(2)} MB
             </h1>
           </div>
           <div className="flex gap-3 text-gray-800 mb-2">
             <h2 className="font-semibold">File Type :</h2>
-            <h1 className="truncate">{data.type}</h1>
+            <h1 className="truncate w-3/5 lg:w-4/5">{data.type}</h1>
           </div>
         </div>
         <div className="flex justify-between items-end gap-6 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">

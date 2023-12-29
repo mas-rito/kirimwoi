@@ -13,11 +13,11 @@ const FileShow = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div
-      className="relative flex justify-center items-center h-screen px-14"
+      className="flex flex-col justify-between min-h-screen px-6 md:px-10 lg:px-14"
       style={{ backgroundImage: "url(/grid.svg)" }}
     >
       <Link
-        className="absolute left-6 top-8 flex items-center text-primary bg-gray-50 rounded-full shadow py-1 ps-2 pe-4"
+        className="flex items-center w-fit text-primary bg-gray-50 rounded-full shadow my-2 md:my-4 lg:mt-6 py-1 ps-2 pe-4"
         href="/"
       >
         <Image
@@ -31,8 +31,12 @@ const FileShow = async ({ params }: { params: { id: string } }) => {
           Kirimwoi
         </span>
       </Link>
-      <FileShowComponent data={file.data} />
-      <CopyrightComponent />
+      <div className="flex justify-center">
+        <FileShowComponent data={file.data} />
+      </div>
+      <div className="flex justify-center my-4">
+        <CopyrightComponent />
+      </div>
     </div>
   );
 };

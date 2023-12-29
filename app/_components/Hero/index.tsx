@@ -56,7 +56,7 @@ const HeroComponent = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="absolute bottom-5 traslate-y-1/2 left-0 right-0">
         <CopyrightComponent />
       </div>
     </section>
