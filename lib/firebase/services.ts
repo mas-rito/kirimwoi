@@ -127,12 +127,19 @@ export async function fileUpload(
 export async function savePassword({
   id,
   password,
+  setIsLoading,
 }: {
   id: string;
   password: string;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const docRef = doc(firestore, "files", id);
-  await updateDoc(docRef, { password: password });
+  try {
+    await updateDoc(docRef, { password: password });
+    setIsLoading(false);
+  } catch (error) {
+    setIsLoading(false);
+  }
 }
 
 export async function retrieveDataById(collectionName: string, id: string) {

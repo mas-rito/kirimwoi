@@ -7,11 +7,13 @@ import React, { useState } from "react";
 const FileShowComponent = ({ data }: { data: any }) => {
   const [isReveal, setIsReveal] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const seePasword = () => {
     setIsReveal(!isReveal);
   };
 
   const handleDownload = async (url: string, fileName: string) => {
+    setIsLoading(true);
     try {
       const response = await axios.get(url, { responseType: "blob" });
       const blob = new Blob([response.data]);
@@ -26,10 +28,13 @@ const FileShowComponent = ({ data }: { data: any }) => {
       link.click();
 
       document.body.removeChild(link);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error downloading file:", error);
     }
   };
+
+  console.log(isLoading);
 
   return (
     <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-10/12">
@@ -71,38 +76,63 @@ const FileShowComponent = ({ data }: { data: any }) => {
             <h1 className="truncate w-3/5 lg:w-4/5">{data.type}</h1>
           </div>
         </div>
-        <div className="flex justify-between items-end gap-6 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
-          <div className="w-full">
-            <label htmlFor="password" className="text-gray-800">
-              File Password
-            </label>
-            <div className="relative">
-              <input
-                type={isReveal ? "text" : "password"}
-                id="password"
-                className="w-full p-2 border rounded focus:outline-gray-400"
-                onChange={(e) => setInputPassword(e.target.value)}
-              />
-              <button
-                type="button"
-                className="absolute top-1/2 right-3 -translate-y-1/2"
-                onClick={seePasword}
-              >
-                {isReveal ? (
-                  <EyeOff color="#4b5563" />
-                ) : (
-                  <Eye color="#4b5563" />
-                )}
-              </button>
+        {data.password && (
+          <div className="flex justify-between items-end gap-6 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
+            <div className="w-full">
+              <label htmlFor="password" className="text-gray-800">
+                File Password
+              </label>
+              <div className="relative">
+                <input
+                  type={isReveal ? "text" : "password"}
+                  id="password"
+                  className="w-full p-2 border rounded focus:outline-gray-400"
+                  onChange={(e) => setInputPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute top-1/2 right-3 -translate-y-1/2"
+                  onClick={seePasword}
+                >
+                  {isReveal ? (
+                    <EyeOff color="#4b5563" />
+                  ) : (
+                    <Eye color="#4b5563" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         {inputPassword === data.password ? (
           <button
             onClick={() => handleDownload(data.url, data.name)}
-            className="w-full bg-primary text-white py-3 rounded mt-2"
+            className="w-full flex justify-center items-center bg-primary text-white py-3 rounded mt-2 outline-none"
           >
-            Download
+            {isLoading ? (
+              <svg
+                className="animate-spin h-6 w-6 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : (
+              "Download"
+            )}
           </button>
         ) : (
           <button
