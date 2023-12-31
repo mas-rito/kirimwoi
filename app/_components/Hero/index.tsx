@@ -1,14 +1,8 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import type { Metadata } from "next";
 import { signIn, useSession } from "next-auth/react";
 import CopyrightComponent from "../Copyright";
-
-export const metadata: Metadata = {
-  title: "Kirimwoi | Share your files",
-  description: "Take easy to share your files",
-};
 
 const HeroComponent = () => {
   const { status } = useSession();

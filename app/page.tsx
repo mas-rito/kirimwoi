@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     "file sharing, easy sharing, quick file transfer, link sharing, email sharing, efficient file sharing",
   authors: [{ name: "KirimWoi", url: "https://www.kirimwoi.cloud" }],
   themeColor: "#ffffff",
-  colorScheme: "light",
   openGraph: {
     title: "KirimWoi - Easy to share your files",
     description:
