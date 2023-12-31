@@ -3,8 +3,34 @@ import FileShowComponent from "@/app/_components/FileShow";
 import { getData } from "@/services/files";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "KirimWoi - Download Your Files",
+  description:
+    "KirimWoi makes it easy for you to send and share files with friends through links, providing a fast, simple, and efficient file-sharing experience.",
+  icons: "/icons/kirimwoi.svg",
+  keywords:
+    "file sharing, easy sharing, quick file transfer, link sharing, email sharing, efficient file sharing",
+  authors: [{ name: "KirimWoi", url: "https://www.kirimwoi.cloud" }],
+  themeColor: "#ffffff",
+  colorScheme: "light",
+  openGraph: {
+    title: "KirimWoi - Easy to share your files",
+    description:
+      "KirimWoi makes it easy for you to send and share files with friends through links, providing a fast, simple, and efficient file-sharing experience.",
+    url: "https://kirimwoi.cloud",
+    siteName: "KirimWoi",
+    images: [
+      {
+        url: "https://kirimwoi.cloud/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
 
 const FileShow = async ({ params }: { params: { id: string } }) => {
   const file = await getData(
