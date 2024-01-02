@@ -3,6 +3,7 @@ import { CheckCircle2, X } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
 
 const ModalComponent = ({
   onReset,
@@ -17,7 +18,12 @@ const ModalComponent = ({
     dispatch(setIsModalOpen(false));
   };
   return (
-    <div className="flex fixed top-0 right-0 left-0 z-50 justify-center items-center w-screen h-screen backdrop-blur bg-black/20">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex fixed top-0 right-0 left-0 z-50 justify-center items-center w-screen h-screen backdrop-blur bg-black/20"
+    >
       <div className="relative bg-white rounded-lg shadow">
         <button
           type="button"
@@ -52,7 +58,7 @@ const ModalComponent = ({
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

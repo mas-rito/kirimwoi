@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setError } from "@/lib/redux/slices/errorSlices";
 import { setIsModalOpen } from "@/lib/redux/slices/modalSlice";
 import ModalComponent from "../Modal";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 const UploadFormComponent = () => {
   const session = useSession();
@@ -84,14 +84,7 @@ const UploadFormComponent = () => {
     <>
       <AnimatePresence>
         {modal.status && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="z-50"
-          >
-            <ModalComponent onReset={handleReset} url={modal.url} />
-          </motion.div>
+          <ModalComponent onReset={handleReset} url={modal.url} />
         )}
       </AnimatePresence>
 
