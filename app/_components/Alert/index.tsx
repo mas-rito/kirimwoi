@@ -13,7 +13,7 @@ const AlertComponent = () => {
     <div
       id="alert-2"
       className={`absolute ${
-        isError ? "top-1" : "-top-full"
+        isError ? "top-0" : "-top-full"
       } w-2/3 flex items-center gap-x-2 p-4 mb-4 text-red-800 rounded-lg bg-red-50 shadow-sm transition-all duration-300 ease-in-out`}
       role="alert"
     >

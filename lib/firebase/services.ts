@@ -168,21 +168,19 @@ export async function retrieveData(
 }
 
 export async function deleteData(collectionName: string, item: DataItem[]) {
-  const batch = writeBatch(firestore);
-  const storageDeletePromises: Promise<any>[] = [];
+  const deletePromises: Promise<any>[] = [];
 
   item.forEach((item) => {
     const storageRef = ref(storage, `files/${item.fileRef}`);
-    const storageDeletePromise = deleteObject(storageRef);
-    storageDeletePromises.push(storageDeletePromise);
-
     const docRef = doc(firestore, collectionName, item.id);
-    batch.delete(docRef);
+
+    const storageDeletePromise = deleteObject(storageRef);
+    const docDeletePromise = deleteDoc(docRef);
+    deletePromises.push(storageDeletePromise, docDeletePromise);
   });
 
   try {
-    await Promise.all(storageDeletePromises);
-    await batch.commit();
+    await Promise.all(deletePromises);
     console.log("Data deleted successfully");
   } catch (error) {
     console.error("Error deleting data:", error);
