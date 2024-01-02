@@ -8,31 +8,30 @@ interface DataItem {
 }
 
 interface SideActionProps {
-  checked: boolean;
   selectedItems: DataItem[];
 }
 
-const SideAction = ({ checked, selectedItems }: SideActionProps) => {
+const SideAction = ({ selectedItems }: SideActionProps) => {
   const handleDelete = () => {
     deleteData("files", selectedItems);
   };
 
   return (
     <div className="flex gap-x-2">
-      <button
+      {/* <button
         type="button"
-        disabled={checked}
-        className="rounded-full shadow hover:bg-gray-100 p-2 disabled:opacity-50"
+        disabled={selectedItems.length > 1}
+        className="rounded-full shadow hover:bg-gray-100 p-2 disabled:hidden"
       >
         <Info color="#32363F" />
       </button>
       <button
         type="button"
-        disabled={checked}
-        className="rounded-full shadow hover:bg-gray-100 p-2 disabled:opacity-50"
+        disabled={selectedItems.length > 1}
+        className="rounded-full shadow hover:bg-gray-100 p-2 disabled:hidden"
       >
         <Pencil color="#FF9800" />
-      </button>
+      </button> */}
       <button
         type="button"
         className="rounded-full shadow hover:bg-gray-100 p-2"

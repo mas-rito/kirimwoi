@@ -18,6 +18,8 @@ const FileListComponent = () => {
   const [checked, setChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
 
+  console.log(selectedItems);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -86,14 +88,13 @@ const FileListComponent = () => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
             <h1 className="font-semibold">Name</h1>
-            {checked ||
-              (selectedItems.length ? (
-                <div
-                  className={`absolute right-5 transition-all duration-200 ease-in-out`}
-                >
-                  <SideAction checked={checked} selectedItems={selectedItems} />
-                </div>
-              ) : null)}
+            {selectedItems.length ? (
+              <div
+                className={`absolute right-5 transition-all duration-200 ease-in-out`}
+              >
+                <SideAction selectedItems={selectedItems} />
+              </div>
+            ) : null}
           </div>
           <div className="h-96 overflow-y-auto">
             {data &&
