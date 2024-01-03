@@ -18,23 +18,28 @@ const FileListComponent = () => {
   const [checked, setChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const result = await getData(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/api/files?email=${session.data?.user?.email}`
-        );
-        setData(result.data);
-        setLoading(false);
+        if (session.data?.user?.email) {
+          const result = await getData(
+            `${process.env.NEXT_PUBLIC_DOMAIN}/api/files?email=${session.data?.user?.email}`
+          );
+          setData(result.data);
+          setLoading(false);
+          setChecked(false);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [session.data?.user?.email]);
+    setRefreshData(false);
+  }, [session.data?.user?.email, refreshData]);
 
   const filteredData = data.filter((item: any) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -60,6 +65,8 @@ const FileListComponent = () => {
       setSelectedItems([...selectedItems, item]);
     }
   };
+
+  const conditional = selectedItems.length > 0 || filteredData.length > 0;
 
   return (
     <div className="w-full rounded bg-gray-100 p-3">
@@ -89,11 +96,13 @@ const FileListComponent = () => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
             <h1 className="font-semibold">Name</h1>
-            {selectedItems.length ? (
-              <div
-                className={`absolute right-5 transition-all duration-200 ease-in-out`}
-              >
-                <SideAction selectedItems={selectedItems} />
+            {selectedItems.length > 0 ? (
+              <div className="absolute right-5">
+                <SideAction
+                  selectedItems={selectedItems}
+                  refreshData={setRefreshData}
+                  refreshSelectedItems={setSelectedItems}
+                />
               </div>
             ) : null}
           </div>
@@ -121,7 +130,7 @@ const FileListComponent = () => {
                   ></path>
                 </svg>
               </div>
-            ) : data.length > 0 ? (
+            ) : conditional ? (
               filteredData.map((item: any) => (
                 <div
                   key={item.id}

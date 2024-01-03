@@ -9,11 +9,23 @@ interface DataItem {
 
 interface SideActionProps {
   selectedItems: DataItem[];
+  refreshData: (newValue: boolean) => void;
+  refreshSelectedItems: (newValue: DataItem[]) => void;
 }
 
-const SideAction = ({ selectedItems }: SideActionProps) => {
+const SideAction = ({
+  selectedItems,
+  refreshData,
+  refreshSelectedItems,
+}: SideActionProps) => {
   const handleDelete = () => {
-    deleteData("files", selectedItems);
+    try {
+      deleteData("files", selectedItems);
+      refreshSelectedItems([]);
+      refreshData(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
