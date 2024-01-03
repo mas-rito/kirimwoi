@@ -9,8 +9,8 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: "my-next-app-7df9a",
-  storageBucket: "my-next-app-7df9a.appspot.com",
+  projectId: "kirimwoi-2b45b",
+  storageBucket: "kirimwoi-2b45b.appspot.com",
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.FIREBASE_APP_ID,
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
