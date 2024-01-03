@@ -111,16 +111,16 @@ export async function fileUpload(
                 });
               })
               .catch((error) => {
-                setError(error);
+                setError("Error during file upload, please try again");
               });
           })
           .catch((error) => {
-            setError("Error during file upload: " + error);
+            setError("Error during file upload, please try again");
           });
       }
     });
   } catch (error) {
-    setError("Error during file upload: " + error);
+    setError("Error during file upload, please try again");
   }
 }
 
