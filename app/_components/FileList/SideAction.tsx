@@ -1,4 +1,5 @@
 import { deleteData } from "@/lib/firebase/services";
+import { revalidateData } from "@/services/revalidate";
 import { Info, Pencil, Trash2 } from "lucide-react";
 import React from "react";
 
@@ -23,6 +24,7 @@ const SideAction = ({
       deleteData("files", selectedItems);
       refreshSelectedItems([]);
       refreshData(true);
+      revalidateData();
     } catch (error) {
       console.log(error);
     }

@@ -3,11 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get("tag");
+  const secret = request.nextUrl.searchParams.get("secret");
 
-  if (!tag) {
+  if (!tag || secret !== process.env.NEXT_PUBLIC_REVALIDATE_SECRET) {
     return NextResponse.json({
       status: 400,
-      message: "Tag is required",
+      message: "Missing parameter",
     });
   }
 
