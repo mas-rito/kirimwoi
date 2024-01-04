@@ -72,7 +72,7 @@ const FileListComponent = () => {
     <div className="w-full rounded bg-gray-100 p-3">
       <div className="flex justify-end md:justify-between items-center">
         <h1 className="hidden md:block text-2xl">Your files</h1>
-        <div className="relative my-2">
+        <div className="relative flex justify-end w-4/5 md:w-fit my-2">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3">
             <Search color="#32363F" />
           </div>
@@ -80,7 +80,7 @@ const FileListComponent = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-50 bg-gray-50"
+            className="w-full py-2 ps-10 ms-auto text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50"
             placeholder="Search for items"
           />
         </div>
