@@ -8,6 +8,7 @@ const FileShowComponent = ({ data }: { data: any }) => {
   const [isReveal, setIsReveal] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCanDownload, setIsCanDownload] = useState(false);
   const seePasword = () => {
     setIsReveal(!isReveal);
   };
@@ -34,12 +35,24 @@ const FileShowComponent = ({ data }: { data: any }) => {
     }
   };
 
-  console.log(isLoading);
+  const handleSubmitPassword = () => {
+    if (inputPassword === data.password) {
+      setIsCanDownload(true);
+    } else {
+      setIsCanDownload(false);
+    }
+  };
+
+  const conditionalType =
+    data.type === "image/jpeg" ||
+    data.type === "image/png" ||
+    data.type === "image/gif" ||
+    data.type === "image/webp";
 
   return (
     <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-10/12">
       <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-full lg:w-3/5 p-2">
-        {data.type === "image/jpeg" || data.type === "image/png" ? (
+        {conditionalType && isCanDownload ? (
           <Image
             src={data.url}
             alt={data.name}
@@ -82,29 +95,38 @@ const FileShowComponent = ({ data }: { data: any }) => {
               <label htmlFor="password" className="text-gray-800">
                 File Password
               </label>
-              <div className="relative">
-                <input
-                  type={isReveal ? "text" : "password"}
-                  id="password"
-                  className="w-full p-2 border rounded focus:outline-gray-400"
-                  onChange={(e) => setInputPassword(e.target.value)}
-                />
+              <div className="w-full flex items-center gap-2">
+                <div className="relative w-full">
+                  <input
+                    type={isReveal ? "text" : "password"}
+                    id="password"
+                    className="w-full p-2 border rounded focus:outline-gray-400"
+                    onChange={(e) => setInputPassword(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-1/2 right-3 -translate-y-1/2"
+                    onClick={seePasword}
+                  >
+                    {isReveal ? (
+                      <EyeOff color="#4b5563" />
+                    ) : (
+                      <Eye color="#4b5563" />
+                    )}
+                  </button>
+                </div>
                 <button
                   type="button"
-                  className="absolute top-1/2 right-3 -translate-y-1/2"
-                  onClick={seePasword}
+                  onClick={handleSubmitPassword}
+                  className="bg-primary text-white py-2 px-5 rounded"
                 >
-                  {isReveal ? (
-                    <EyeOff color="#4b5563" />
-                  ) : (
-                    <Eye color="#4b5563" />
-                  )}
+                  Enter
                 </button>
               </div>
             </div>
           </div>
         )}
-        {inputPassword === data.password ? (
+        {isCanDownload ? (
           <button
             onClick={() => handleDownload(data.url, data.name)}
             className="w-full flex justify-center items-center bg-primary text-white py-3 rounded mt-2 outline-none"

@@ -1,5 +1,6 @@
 "use client";
 import { savePassword } from "@/lib/firebase/services";
+import { revalidateData } from "@/services/revalidate";
 import { Check, Eye, EyeOff, File, Files } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -27,6 +28,7 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
     if (password || password !== data.password) {
       setIsLoading(true);
       savePassword({ id: data.id, password: password, setIsLoading });
+      revalidateData();
     } else {
       return;
     }
@@ -82,7 +84,7 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
             {isCopied ? <Check color="#16a34a" /> : <Files color="#4b5563" />}
           </button>
         </div>
-        <div className="flex justify-between items-end gap-6 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
+        <div className="flex justify-between items-end gap-2 w-full mt-2 bg-gray-50 py-1 px-4 rounded-md">
           <div className="w-full">
             <label htmlFor="password" className="text-gray-800">
               File Password
