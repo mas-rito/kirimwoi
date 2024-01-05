@@ -6,6 +6,7 @@ import React from "react";
 interface DataItem {
   id: string;
   fileRef: string;
+  size: number;
 }
 
 interface SideActionProps {

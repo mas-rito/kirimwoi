@@ -22,6 +22,7 @@ const authOption: NextAuthOptions = {
           fullname: user.name,
           email: user.email,
           image: user.image,
+          maxsize: 105000000,
         };
 
         await login(data, (result: { status: boolean; data: any }) => {
@@ -29,6 +30,7 @@ const authOption: NextAuthOptions = {
             token.email = result.data.email;
             token.fullname = result.data.fullname;
             token.image = result.data.image;
+            token.maxsize = result.data.maxsize;
           }
         });
       }
@@ -50,6 +52,10 @@ const authOption: NextAuthOptions = {
 
       if ("image" in token) {
         session.user.image = token.image;
+      }
+
+      if ("maxsize" in token) {
+        session.user.maxsize = token.maxsize;
       }
       return session;
     },

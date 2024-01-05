@@ -1,7 +1,7 @@
 "use client";
 import { fileUpload } from "@/lib/firebase/services";
 import { File } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProgressBar from "../ProgressBar";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,18 @@ import { setError } from "@/lib/redux/slices/errorSlices";
 import { setIsModalOpen } from "@/lib/redux/slices/modalSlice";
 import ModalComponent from "../Modal";
 import { AnimatePresence } from "framer-motion";
+import { getData } from "@/services/files";
+import { revalidateData } from "@/services/revalidate";
+
+interface DataItem {
+  id: string;
+  fileRef: string;
+  size: number;
+}
+
+type YourUserType = {
+  maxsize: number;
+};
 
 const UploadFormComponent = () => {
   const session = useSession();
@@ -17,8 +29,34 @@ const UploadFormComponent = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [drag, setDrag] = useState(false);
   const [progress, setProgress] = useState<number>(0);
+  const [data, setData] = useState<DataItem[]>([]);
+  const [refreshData, setRefreshData] = useState(false);
   const modal = useSelector((state: any) => state.isModalOpen.isOpen);
   const handleError = (error: string) => dispatch(setError(error));
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (session.data?.user?.email) {
+          const result = await getData(
+            `${process.env.NEXT_PUBLIC_DOMAIN}/api/files?email=${session.data?.user?.email}`
+          );
+          setData(result.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    setRefreshData(false);
+  }, [session.data?.user?.email, refreshData]);
+
+  const totalFileSize = data.reduce((sum, item) => sum + item.size, 0);
+
+  const limitSizeFile =
+    (session.data?.user as YourUserType)?.maxsize - totalFileSize;
+
   const handleModal = ({
     isOpen: { status, url },
   }: {
@@ -69,6 +107,8 @@ const UploadFormComponent = () => {
   const handleSubmit = async () => {
     if (file && file.size > 105000000) {
       dispatch(setError("File is too big"));
+    } else if (file && file.size > limitSizeFile) {
+      dispatch(setError("You reached the limit file size"));
     } else {
       await fileUpload(
         file,
@@ -77,6 +117,8 @@ const UploadFormComponent = () => {
         handleError,
         handleModal
       );
+      revalidateData();
+      setRefreshData(true);
     }
   };
 

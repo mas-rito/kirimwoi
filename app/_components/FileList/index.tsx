@@ -5,15 +5,17 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import SideAction from "./SideAction";
+import { useDispatch } from "react-redux";
 
 interface DataItem {
   id: string;
   fileRef: string;
+  size: number;
 }
 
 const FileListComponent = () => {
   const session = useSession();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<DataItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [checked, setChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
@@ -146,6 +148,7 @@ const FileListComponent = () => {
                       handleCheckboxChange({
                         id: item.id,
                         fileRef: item.fileRef,
+                        size: item.size,
                       })
                     }
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
