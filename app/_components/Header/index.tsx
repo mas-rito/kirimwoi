@@ -7,6 +7,7 @@ import SideInfo from "../SideInfo";
 
 const HeaderComponent = () => {
   const { status } = useSession();
+  console.log(status);
 
   return (
     <header className="flex fixed top-0 z-50 w-full h-20 bg-gray-50 bg-opacity-75 items-center gap-8 px-4 sm:px-6 lg:px-8 shadow-sm">
@@ -23,8 +24,8 @@ const HeaderComponent = () => {
             Kirimwoi
           </span>
         </Link>
-        <div className="flex items-center gap-4">
-          {status === "authenticated" ? (
+        {status !== "loading" ? (
+          status === "authenticated" ? (
             <SideInfo />
           ) : (
             <button
@@ -36,8 +37,10 @@ const HeaderComponent = () => {
             >
               Login
             </button>
-          )}
-        </div>
+          )
+        ) : (
+          <div className="w-36 h-11 bg-gray-200 rounded-lg animate-pulse" />
+        )}
       </div>
     </header>
   );

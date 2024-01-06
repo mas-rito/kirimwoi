@@ -8,7 +8,7 @@ const SideInfo = () => {
   const [open, setOpen] = useState(false);
   const session = useSession();
 
-  return (
+  return session.data ? (
     <div className="relative">
       <button
         type="button"
@@ -36,6 +36,8 @@ const SideInfo = () => {
         </button>
       </div>
     </div>
+  ) : (
+    <div className="w-40 h-11 bg-gray-200 rounded-full animate-pulse" />
   );
 };
 

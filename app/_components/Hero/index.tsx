@@ -29,23 +29,30 @@ const HeroComponent = () => {
           </p>
 
           <div className="mt-8 flex justify-center">
-            {status === "unauthenticated" ? (
-              <button
-                type="button"
-                onClick={() => {
-                  signIn("google", { callbackUrl: "/upload", redirect: false });
-                }}
-                className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
-              >
-                Kirim woi!
-              </button>
+            {status !== "loading" ? (
+              status === "unauthenticated" ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    signIn("google", {
+                      callbackUrl: "/upload",
+                      redirect: false,
+                    });
+                  }}
+                  className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
+                >
+                  Kirim woi!
+                </button>
+              ) : (
+                <Link
+                  className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
+                  href="/upload"
+                >
+                  Kirim woi!
+                </Link>
+              )
             ) : (
-              <Link
-                className="rounded-md bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring w-auto"
-                href="/upload"
-              >
-                Kirim woi!
-              </Link>
+              <div className="w-40 h-10 bg-gray-200 rounded-lg animate-pulse" />
             )}
           </div>
         </div>
