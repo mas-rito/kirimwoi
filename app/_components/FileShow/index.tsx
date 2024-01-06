@@ -9,6 +9,9 @@ const FileShowComponent = ({ data }: { data: any }) => {
   const [inputPassword, setInputPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isCanDownload, setIsCanDownload] = useState(false);
+
+  console.log(data.password);
+
   const seePasword = () => {
     setIsReveal(!isReveal);
   };
@@ -49,10 +52,13 @@ const FileShowComponent = ({ data }: { data: any }) => {
     data.type === "image/gif" ||
     data.type === "image/webp";
 
+  const conditional =
+    (conditionalType && isCanDownload) || data.password === "";
+
   return (
     <div className="flex flex-wrap lg:flex-nowrap gap-2 w-full md:w-10/12">
       <div className="flex flex-col items-center justify-center bg-gray-200 rounded w-full lg:w-3/5 p-2">
-        {conditionalType && isCanDownload ? (
+        {conditional ? (
           <Image
             src={data.url}
             alt={data.name}
@@ -126,7 +132,7 @@ const FileShowComponent = ({ data }: { data: any }) => {
             </div>
           </div>
         )}
-        {isCanDownload ? (
+        {isCanDownload || data.password === "" ? (
           <button
             onClick={() => handleDownload(data.url, data.name)}
             className="w-full flex justify-center items-center bg-primary text-white py-3 rounded mt-2 outline-none"

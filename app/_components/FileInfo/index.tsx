@@ -113,9 +113,7 @@ const FileInfo = ({ data, fileUrl }: { data: any; fileUrl: string }) => {
           <button
             type="button"
             className="flex justify-center items-center bg-primary text-white hover:bg-primary/90 py-2 px-4 rounded disabled:bg-gray-500"
-            disabled={
-              password === "" || isLoading || password === data.password
-            }
+            disabled={isLoading || password === data.password}
             onClick={HandleSavePassword}
           >
             {isLoading ? (
