@@ -1,4 +1,5 @@
 import FileInfo from "@/app/_components/FileInfo";
+import NotFoundComponent from "@/app/_components/NotFound";
 import { getData } from "@/services/files";
 import type { Metadata } from "next";
 
@@ -35,7 +36,11 @@ const SingleFile = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="flex justify-center px-6 md:px-10 lg:px-14">
-      <FileInfo data={file.data} fileUrl={fileShortUrl} />
+      {file.status === 200 ? (
+        <FileInfo data={file.data} fileUrl={fileShortUrl} />
+      ) : (
+        <NotFoundComponent />
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
+import NotFoundComponent from "@/app/_components/NotFound";
 
 export const metadata: Metadata = {
   title: "KirimWoi - Download Your Files",
@@ -57,7 +58,11 @@ const FileShow = async ({ params }: { params: { id: string } }) => {
         </span>
       </Link>
       <div className="flex justify-center">
-        <FileShowComponent data={file.data} />
+        {file.status === 200 ? (
+          <FileShowComponent data={file.data} />
+        ) : (
+          <NotFoundComponent />
+        )}
       </div>
       <div className="flex justify-center my-4">
         <CopyrightComponent />
