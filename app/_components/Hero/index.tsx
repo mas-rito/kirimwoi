@@ -23,8 +23,8 @@ const HeroComponent = () => {
           </h1>
 
           <p className="mt-4 sm:text-xl/relaxed">
-            Memudahkan untuk mengirim dan berbagi file dengan melalui tautan,
-            memberikan pengalaman berbagi file yang cepat, sederhana, dan
+            Memudahkan untuk mengirim dan berbagi file melalui tautan.
+            Memberikan pengalaman berbagi file yang cepat, sederhana, dan
             efisien.
           </p>
 
