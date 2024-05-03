@@ -2,7 +2,7 @@ import React from "react"
 import type { Metadata } from "next"
 
 import AlertComponent from "@/components/Alert"
-import UploadFormComponent from "@/components/UploadForm"
+import UploadFormComponent from "@/components/organisms/uploadForm"
 
 export const metadata: Metadata = {
   title: "KirimWoi - Upload Your Files",

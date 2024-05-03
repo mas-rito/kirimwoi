@@ -1,35 +1,25 @@
+"use client"
+
 import React from "react"
 import Link from "next/link"
 
-import { motion } from "framer-motion"
 import { CheckCircle2, X } from "lucide-react"
-import { useDispatch } from "react-redux"
 
-import { setIsModalOpen } from "@/lib/redux/slices/modalSlice"
+import { useModal } from "@/hooks/useModal"
 
 const ModalComponent = ({
-  onReset,
+  closeModal,
   url,
 }: {
-  onReset: () => void
+  closeModal: () => void
   url: string
 }) => {
-  const dispatch = useDispatch()
-  const handleOnclick = () => {
-    onReset()
-    dispatch(setIsModalOpen(false))
-  }
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed left-0 right-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/20 backdrop-blur"
-    >
+    <div className="fixed left-0 right-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/20 backdrop-blur">
       <div className="relative rounded-lg bg-white shadow">
         <button
           type="button"
-          onClick={handleOnclick}
+          onClick={closeModal}
           className="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
         >
           <X />
@@ -45,7 +35,7 @@ const ModalComponent = ({
 
           <button
             type="button"
-            onClick={handleOnclick}
+            onClick={closeModal}
             className="me-2 rounded-lg border border-gray-200 bg-gray-100 px-5 py-2.5 text-sm font-medium text-gray-800"
           >
             No, thanks
@@ -53,14 +43,14 @@ const ModalComponent = ({
 
           <Link
             href={`/files/${url}`}
-            onClick={handleOnclick}
+            onClick={closeModal}
             className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-white"
           >
             Yes, Kirimin!
           </Link>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

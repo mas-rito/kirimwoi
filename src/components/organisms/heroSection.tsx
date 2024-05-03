@@ -5,7 +5,7 @@ import Link from "next/link"
 
 import { signIn, useSession } from "next-auth/react"
 
-import CopyrightComponent from "./Copyright"
+import CopyrightComponent from "../Copyright"
 
 export const HeroComponent = () => {
   const { status } = useSession()
@@ -66,4 +66,3 @@ export const HeroComponent = () => {
     </section>
   )
 }
-

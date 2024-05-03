@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react"
 
 import { getData } from "@/services/files"
 import { revalidateData } from "@/services/revalidate"
-import { AnimatePresence } from "framer-motion"
 import { File } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,8 +11,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { fileUpload } from "@/lib/firebase/services"
 import { setError } from "@/lib/redux/slices/errorSlices"
 import { setIsModalOpen } from "@/lib/redux/slices/modalSlice"
+import { useModal } from "@/hooks/useModal"
 
-import ModalComponent from "../Modal"
+import ModalComponent from "../molecules/modalForm"
 import ProgressBar from "../ProgressBar"
 
 interface DataItem {
@@ -35,6 +35,8 @@ const UploadFormComponent = () => {
   const [progress, setProgress] = useState<number>(0)
   const [data, setData] = useState<DataItem[]>([])
   const [refreshData, setRefreshData] = useState(false)
+  // for handle modal
+  const { isShow, openModal, closeModal } = useModal()
   const modal = useSelector((state: any) => state.isModalOpen.isOpen)
   const handleError = (error: string) => dispatch(setError(error))
 
@@ -103,11 +105,6 @@ const UploadFormComponent = () => {
     }
   }
 
-  const handleReset = () => {
-    setFile(undefined)
-    setProgress(0)
-  }
-
   const handleSubmit = async () => {
     if (file && file.size > 105000000) {
       dispatch(setError("File is too big"))
@@ -126,14 +123,17 @@ const UploadFormComponent = () => {
     }
   }
 
+  const handleResetForm = () => {
+    setFile(undefined)
+    setProgress(0)
+    closeModal()
+  }
+
   return (
     <>
-      <AnimatePresence>
-        {modal.status && (
-          <ModalComponent onReset={handleReset} url={modal.url} />
-        )}
-      </AnimatePresence>
-
+      <div className={`${isShow ? "visible" : "invisible"} `}>
+        <ModalComponent closeModal={handleResetForm} url={modal.url} />
+      </div>
       <form className="mt-6 flex w-full flex-col items-center justify-center">
         <label
           htmlFor="dropzone-file"

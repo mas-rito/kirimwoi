@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
-import { HeroComponent } from "@/components/heroSection"
-import { HeaderComponent } from "@/components/header"
+import { HeaderComponent } from "@/components/molecules/header"
+import { HeroComponent } from "@/components/organisms/heroSection"
 
 export const metadata: Metadata = {
   title: "KirimWoi - Easy to share your files",

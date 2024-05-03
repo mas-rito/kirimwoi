@@ -6,7 +6,7 @@ import Link from "next/link"
 
 import { signIn, signOut, useSession } from "next-auth/react"
 
-import SideInfo from "./SideInfo"
+import SideInfo from "../SideInfo"
 
 export const HeaderComponent = () => {
   const { status } = useSession()
