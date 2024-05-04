@@ -6,11 +6,10 @@ import { getData } from "@/services/files"
 import { revalidateData } from "@/services/revalidate"
 import { File } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { fileUpload } from "@/lib/firebase/services"
 import { setError } from "@/lib/redux/slices/errorSlices"
-import { setIsModalOpen } from "@/lib/redux/slices/modalSlice"
 import { useModal } from "@/hooks/useModal"
 
 import ModalComponent from "../molecules/modalForm"
@@ -37,7 +36,8 @@ const UploadFormComponent = () => {
   const [refreshData, setRefreshData] = useState(false)
   // for handle modal
   const { isShow, openModal, closeModal } = useModal()
-  const modal = useSelector((state: any) => state.isModalOpen.isOpen)
+  // for handle url for modal
+  const [urlFile, setUrlFile] = useState("")
   const handleError = (error: string) => dispatch(setError(error))
 
   useEffect(() => {
@@ -58,16 +58,12 @@ const UploadFormComponent = () => {
     setRefreshData(false)
   }, [session.data?.user?.email, refreshData])
 
+  console.log(data)
+
   const totalFileSize = data.reduce((sum, item) => sum + item.size, 0)
 
   const limitSizeFile =
     (session.data?.user as YourUserType)?.maxsize - totalFileSize
-
-  const handleModal = ({
-    isOpen: { status, url },
-  }: {
-    isOpen: { status: boolean; url: string }
-  }) => dispatch(setIsModalOpen({ status, url }))
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0]
@@ -111,13 +107,14 @@ const UploadFormComponent = () => {
     } else if (file && file.size > limitSizeFile) {
       dispatch(setError("You reached the limit file size"))
     } else {
-      await fileUpload(
+      const docId = await fileUpload(
         file,
         session.data?.user,
         setProgress,
         handleError,
-        handleModal
+        openModal
       )
+      setUrlFile(docId || "")
       revalidateData()
       setRefreshData(true)
     }
@@ -131,8 +128,10 @@ const UploadFormComponent = () => {
 
   return (
     <>
-      <div className={`${isShow ? "visible" : "invisible"} `}>
-        <ModalComponent closeModal={handleResetForm} url={modal.url} />
+      <div
+        className={`${isShow ? "visible opacity-100" : "invisible opacity-0"} transition-opacity`}
+      >
+        <ModalComponent closeModal={handleResetForm} url={urlFile} />
       </div>
       <form className="mt-6 flex w-full flex-col items-center justify-center">
         <label

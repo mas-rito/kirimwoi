@@ -61,11 +61,7 @@ export async function fileUpload(
   user: any,
   setProgress: React.Dispatch<React.SetStateAction<number>>,
   setError: (error: string) => void,
-  setModal: ({
-    isOpen: { status, url },
-  }: {
-    isOpen: { status: boolean; url: string }
-  }) => void
+  setModal: Function
 ) {
   const metadata = {
     contentType: file.type,
@@ -76,6 +72,7 @@ export async function fileUpload(
   const uploadTask = uploadBytesResumable(storageRef, file, metadata)
 
   try {
+    const docId = generateRandomString(6)
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on("state_changed", (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -83,7 +80,6 @@ export async function fileUpload(
       setProgress(progress)
 
       if (progress === 100) {
-        const docId = generateRandomString(6)
         const data = {
           id: docId,
           name: file?.name,
@@ -97,29 +93,17 @@ export async function fileUpload(
         }
 
         // Get download URL and set data in Firestore
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            data.url = downloadURL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          data.url = downloadURL
+          console.log(data)
 
-            // Set data in Firestore
-            setDoc(doc(firestore, "files", docId), data)
-              .then(() => {
-                setModal({
-                  isOpen: {
-                    status: true,
-                    url: docId,
-                  },
-                })
-              })
-              .catch((error) => {
-                setError("Error during file upload, please try again")
-              })
-          })
-          .catch((error) => {
-            setError("Error during file upload, please try again")
-          })
+          // Set data in Firestore
+          setDoc(doc(firestore, "files", docId), data)
+          setModal()
+        })
       }
     })
+    return docId
   } catch (error) {
     setError("Error during file upload, please try again")
   }
