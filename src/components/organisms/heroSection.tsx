@@ -5,7 +5,7 @@ import Link from "next/link"
 
 import { signIn, useSession } from "next-auth/react"
 
-import CopyrightComponent from "../Copyright"
+import { Copyright } from "../atoms/copyright"
 
 export const HeroComponent = () => {
   const { status } = useSession()
@@ -61,7 +61,7 @@ export const HeroComponent = () => {
         </div>
       </div>
       <div className="traslate-y-1/2 absolute bottom-5 left-0 right-0">
-        <CopyrightComponent />
+        <Copyright />
       </div>
     </section>
   )

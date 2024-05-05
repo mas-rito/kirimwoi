@@ -1,6 +1,6 @@
 import React from "react"
 
-const CopyrightComponent = () => {
+export const Copyright = () => {
   const year = new Date().getFullYear()
   return (
     <p className="text-center text-sm text-gray-600">
@@ -8,5 +8,3 @@ const CopyrightComponent = () => {
     </p>
   )
 }
-
-export default CopyrightComponent

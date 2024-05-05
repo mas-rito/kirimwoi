@@ -1,75 +1,60 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
-import { getData } from "@/services/files"
 import { revalidateData } from "@/services/revalidate"
 import { File } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { useDispatch } from "react-redux"
 
 import { fileUpload } from "@/lib/firebase/services"
-import { setError } from "@/lib/redux/slices/errorSlices"
+import { useError } from "@/hooks/useError"
 import { useModal } from "@/hooks/useModal"
 
-import ModalComponent from "../molecules/modalForm"
+import { AlertError } from "../atoms/AlertError"
+import { ModalForm, ModalWrapper } from "../molecules/modalForm"
 import ProgressBar from "../ProgressBar"
-
-interface DataItem {
-  id: string
-  fileRef: string
-  size: number
-}
-
-type YourUserType = {
-  maxsize: number
-}
 
 const UploadFormComponent = () => {
   const session = useSession()
-  const dispatch = useDispatch()
 
-  const [file, setFile] = useState<File | undefined>(undefined)
+  const [file, setFile] = useState<File>()
   const [drag, setDrag] = useState(false)
   const [progress, setProgress] = useState<number>(0)
-  const [data, setData] = useState<DataItem[]>([])
-  const [refreshData, setRefreshData] = useState(false)
   // for handle modal
   const { isShow, openModal, closeModal } = useModal()
+  // for handle error
+  const { error, setError } = useError()
   // for handle url for modal
   const [urlFile, setUrlFile] = useState("")
-  const handleError = (error: string) => dispatch(setError(error))
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const submitFile = async (file: File | undefined) => {
+    if (!file) {
+      return
+    }
+    if (file.size > 105000000) {
+      setError("File is too large")
+    } else {
       try {
-        if (session.data?.user?.email) {
-          const result = await getData(
-            `${process.env.NEXT_PUBLIC_DOMAIN}/api/files?email=${session.data?.user?.email}`
-          )
-          setData(result.data)
-        }
+        const docId = await fileUpload(
+          file,
+          session.data?.user,
+          setProgress,
+          setError,
+          openModal
+        )
+        setUrlFile(docId || "")
+        revalidateData()
       } catch (error) {
-        console.error("Error fetching data:", error)
+        setError("Error uploading file")
       }
     }
-
-    fetchData()
-    setRefreshData(false)
-  }, [session.data?.user?.email, refreshData])
-
-  console.log(data)
-
-  const totalFileSize = data.reduce((sum, item) => sum + item.size, 0)
-
-  const limitSizeFile =
-    (session.data?.user as YourUserType)?.maxsize - totalFileSize
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileTarget = e.target.files?.[0]
 
     if (fileTarget && fileTarget.size > 105000000) {
-      dispatch(setError("File is too big"))
+      setError("File is too large")
     } else {
       setFile(fileTarget)
     }
@@ -94,29 +79,10 @@ const UploadFormComponent = () => {
       const droppedFile = droppedFiles[0]
 
       if (droppedFile.size > 105000000) {
-        dispatch(setError("File is too big"))
+        setError("File is too large")
       } else {
         setFile(droppedFile)
       }
-    }
-  }
-
-  const handleSubmit = async () => {
-    if (file && file.size > 105000000) {
-      dispatch(setError("File is too big"))
-    } else if (file && file.size > limitSizeFile) {
-      dispatch(setError("You reached the limit file size"))
-    } else {
-      const docId = await fileUpload(
-        file,
-        session.data?.user,
-        setProgress,
-        handleError,
-        openModal
-      )
-      setUrlFile(docId || "")
-      revalidateData()
-      setRefreshData(true)
     }
   }
 
@@ -128,11 +94,10 @@ const UploadFormComponent = () => {
 
   return (
     <>
-      <div
-        className={`${isShow ? "visible opacity-100" : "invisible opacity-0"} transition-opacity`}
-      >
-        <ModalComponent closeModal={handleResetForm} url={urlFile} />
-      </div>
+      <AlertError isError={error} setError={setError} />
+      <ModalWrapper isShow={isShow}>
+        <ModalForm closeModal={handleResetForm} url={urlFile} />
+      </ModalWrapper>
       <form className="mt-6 flex w-full flex-col items-center justify-center">
         <label
           htmlFor="dropzone-file"
@@ -197,7 +162,7 @@ const UploadFormComponent = () => {
           className="mt-5 rounded-full bg-primary px-16 py-3 text-lg font-medium text-white shadow hover:bg-opacity-90 focus:outline-none focus:ring disabled:bg-gray-500"
           disabled={!file}
           type="button"
-          onClick={handleSubmit}
+          onClick={() => submitFile(file)}
         >
           Upload
         </button>

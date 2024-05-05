@@ -5,15 +5,27 @@ import Link from "next/link"
 
 import { CheckCircle2, X } from "lucide-react"
 
-import { useModal } from "@/hooks/useModal"
+type ModalWrapperProps = {
+  isShow: boolean
+  children: React.ReactNode
+}
 
-const ModalComponent = ({
-  closeModal,
-  url,
-}: {
+type ModalFormProps = {
   closeModal: () => void
   url: string
-}) => {
+}
+
+export const ModalWrapper = ({ isShow, children }: ModalWrapperProps) => {
+  return (
+    <div
+      className={`${isShow ? "visible opacity-100" : "invisible opacity-0"} relative z-50 transition-opacity`}
+    >
+      {children}
+    </div>
+  )
+}
+
+export const ModalForm = ({ closeModal, url }: ModalFormProps) => {
   return (
     <div className="fixed left-0 right-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/20 backdrop-blur">
       <div className="relative rounded-lg bg-white shadow">
@@ -53,5 +65,3 @@ const ModalComponent = ({
     </div>
   )
 }
-
-export default ModalComponent

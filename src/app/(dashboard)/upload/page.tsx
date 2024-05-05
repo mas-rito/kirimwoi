@@ -1,7 +1,6 @@
 import React from "react"
 import type { Metadata } from "next"
 
-import AlertComponent from "@/components/Alert"
 import UploadFormComponent from "@/components/organisms/uploadForm"
 
 export const metadata: Metadata = {
@@ -31,7 +30,6 @@ export const metadata: Metadata = {
 const UploadPage = () => {
   return (
     <div className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-14">
-      <AlertComponent />
       <h1 className="text-center text-lg md:text-xl lg:text-2xl">
         Start <span className="font-semibold text-primary">upload</span> your
         file and <span className="font-semibold text-primary">share</span> it.

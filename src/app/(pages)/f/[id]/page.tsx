@@ -5,7 +5,7 @@ import Link from "next/link"
 
 import { getData } from "@/services/files"
 
-import CopyrightComponent from "@/components/Copyright"
+import { Copyright } from "@/components/atoms/copyright"
 import FileShowComponent from "@/components/FileShow"
 import NotFoundComponent from "@/components/NotFound"
 
@@ -65,8 +65,8 @@ const FileShow = async ({ params }: { params: { id: string } }) => {
           <NotFoundComponent />
         )}
       </div>
-      <div className="my-4 flex justify-center">
-        <CopyrightComponent />
+      <div className="mx-auto my-4">
+        <Copyright />
       </div>
     </div>
   )
