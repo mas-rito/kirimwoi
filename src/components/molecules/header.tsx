@@ -4,13 +4,12 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 
 import SideInfo from "../SideInfo"
 
 export const HeaderComponent = () => {
   const { status } = useSession()
-  console.log(status)
 
   return (
     <header className="fixed top-0 z-50 flex h-20 w-full items-center gap-8 bg-gray-50 bg-opacity-75 px-4 shadow-sm sm:px-6 lg:px-8">
