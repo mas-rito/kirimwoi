@@ -18,7 +18,7 @@ type ModalFormProps = {
 export const ModalWrapper = ({ isShow, children }: ModalWrapperProps) => {
   return (
     <div
-      className={`${isShow ? "visible opacity-100" : "invisible opacity-0"} relative z-50 transition-opacity`}
+      className={`${isShow ? "visible opacity-100" : "invisible opacity-0"} fixed left-0 top-0 z-50 bg-black/20 backdrop-blur transition-opacity`}
     >
       {children}
     </div>
@@ -27,7 +27,7 @@ export const ModalWrapper = ({ isShow, children }: ModalWrapperProps) => {
 
 export const ModalForm = ({ closeModal, url }: ModalFormProps) => {
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/20 backdrop-blur">
+    <div className="flex h-screen w-screen items-center justify-center">
       <div className="relative rounded-lg bg-white shadow">
         <button
           type="button"

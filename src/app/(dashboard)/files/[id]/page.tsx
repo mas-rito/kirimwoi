@@ -33,7 +33,7 @@ const SingleFile = async ({ params }: { params: { id: string } }) => {
   const file = await getData(
     `${process.env.NEXT_PUBLIC_DOMAIN}/api/files?id=${params.id}`
   )
-  const fileShortUrl = process.env.NEXT_PUBLIC_DOMAIN + "/f/" + file.data.id
+  const fileShortUrl = process.env.NEXT_PUBLIC_DOMAIN + "f/" + file.data.id
 
   return (
     <div className="flex justify-center px-6 md:px-10 lg:px-14">
